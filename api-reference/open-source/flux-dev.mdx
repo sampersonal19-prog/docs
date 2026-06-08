@@ -1,0 +1,159 @@
+---
+title: "FLUX.1 [dev]"
+description: "Generate high-quality images using the open-source FLUX.1 [dev] model."
+api: "POST https://api.kenerateai.com/api/v3/wavespeed-ai/flux-dev"
+---
+
+FLUX.1 [dev] is a powerful open-source multimodal autoregressive model capable of generating highly detailed, photorealistic images from natural language descriptions. It features excellent prompt adherence, high-fidelity text rendering, and support for inpainting.
+
+## Usage
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST "https://api.kenerateai.com/api/v3/wavespeed-ai/flux-dev" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "A futuristic city under a neon-lit sky, cyber-punk aesthetic",
+    "width": 1024,
+    "height": 1024,
+    "num_inference_steps": 28,
+    "guidance_scale": 3.5,
+    "num_images": 1,
+    "output_format": "jpeg"
+  }'
+```
+
+```python Python
+import requests
+import json
+
+url = "https://api.kenerateai.com/api/v3/wavespeed-ai/flux-dev"
+
+payload = json.dumps({
+  "prompt": "A futuristic city under a neon-lit sky, cyber-punk aesthetic",
+  "width": 1024,
+  "height": 1024,
+  "num_inference_steps": 28,
+  "guidance_scale": 3.5,
+  "num_images": 1,
+  "output_format": "jpeg"
+})
+headers = {
+  'Authorization': 'Bearer <YOUR_API_KEY>',
+  'Content-Type': 'application/json'
+}
+
+response = requests.request("POST", url, headers=headers, data=payload)
+
+print(response.text)
+```
+
+```javascript Node.js
+const axios = require('axios');
+let data = JSON.stringify({
+  "prompt": "A futuristic city under a neon-lit sky, cyber-punk aesthetic",
+  "width": 1024,
+  "height": 1024,
+  "num_inference_steps": 28,
+  "guidance_scale": 3.5,
+  "num_images": 1,
+  "output_format": "jpeg"
+});
+
+let config = {
+  method: 'post',
+  maxBodyLength: Infinity,
+  url: 'https://api.kenerateai.com/api/v3/wavespeed-ai/flux-dev',
+  headers: { 
+    'Authorization': 'Bearer <YOUR_API_KEY>', 
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+
+axios.request(config)
+.then((response) => {
+  console.log(JSON.stringify(response.data));
+})
+.catch((error) => {
+  console.log(error);
+});
+```
+
+</CodeGroup>
+
+## Body Parameters
+
+<ParamField body="prompt" type="string" required>
+  The text description of the image you want to generate.
+</ParamField>
+
+<ParamField body="image" type="string">
+  Source image URL for image-to-image translation.
+</ParamField>
+
+<ParamField body="mask_image" type="string">
+  Mask image URL for inpainting over the source image.
+</ParamField>
+
+<ParamField body="strength" type="float" default="0.8">
+  Transformation strength for image-to-image workflows (0.0 to 1.0).
+</ParamField>
+
+<ParamField body="width" type="integer" default="1024">
+  The width of the generated image.
+</ParamField>
+
+<ParamField body="height" type="integer" default="1024">
+  The height of the generated image.
+</ParamField>
+
+<ParamField body="num_inference_steps" type="integer" default="28">
+  Number of denoising steps. Higher values take longer but can produce better quality.
+</ParamField>
+
+<ParamField body="seed" type="integer">
+  Random seed for reproducible generation.
+</ParamField>
+
+<ParamField body="guidance_scale" type="float" default="3.5">
+  Classifier-free guidance scale.
+</ParamField>
+
+<ParamField body="num_images" type="integer" default="1">
+  Number of output images to generate (1-4).
+</ParamField>
+
+<ParamField body="output_format" type="string" default="jpeg">
+  The format of the returned image. Valid options: `jpeg` or `png`.
+</ParamField>
+
+<ParamField body="webhook_url" type="string">
+  The URL to which a POST request will be sent when the generation is complete.
+</ParamField>
+
+## Response
+
+<ResponseField name="code" type="integer">
+  HTTP status code of the response (e.g., 200).
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Success message.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties">
+    <ResponseField name="id" type="string">
+      The unique identifier for this generation task.
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      Current status, e.g., `queued`.
+    </ResponseField>
+    <ResponseField name="urls" type="object">
+      Contains a `get` URL that you can poll to check the result.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

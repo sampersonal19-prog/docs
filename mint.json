@@ -43,6 +43,12 @@
       ]
     },
     {
+      "group": "Open Source",
+      "pages": [
+        "api-reference/open-source/flux-dev"
+      ]
+    },
+    {
       "group": "Predictions",
       "pages": [
         "api-reference/predictions/get-prediction",
