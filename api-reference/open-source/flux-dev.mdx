@@ -1,7 +1,7 @@
 ---
 title: "FLUX.1 [dev]"
 description: "Generate high-quality images using the open-source FLUX.1 [dev] model."
-api: "POST https://api.kenerateai.com/api/v3/wavespeed-ai/flux-dev"
+api: "POST https://api.kenerateai.com/api/v3/kenerateai/flux-dev"
 ---
 
 FLUX.1 [dev] is a powerful open-source multimodal autoregressive model capable of generating highly detailed, photorealistic images from natural language descriptions. It features excellent prompt adherence, high-fidelity text rendering, and support for inpainting.
@@ -11,7 +11,7 @@ FLUX.1 [dev] is a powerful open-source multimodal autoregressive model capable o
 <CodeGroup>
 
 ```bash cURL
-curl -X POST "https://api.kenerateai.com/api/v3/wavespeed-ai/flux-dev" \
+curl -X POST "https://api.kenerateai.com/api/v3/kenerateai/flux-dev" \
   -H "Authorization: Bearer <YOUR_API_KEY>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -29,7 +29,7 @@ curl -X POST "https://api.kenerateai.com/api/v3/wavespeed-ai/flux-dev" \
 import requests
 import json
 
-url = "https://api.kenerateai.com/api/v3/wavespeed-ai/flux-dev"
+url = "https://api.kenerateai.com/api/v3/kenerateai/flux-dev"
 
 payload = json.dumps({
   "prompt": "A futuristic city under a neon-lit sky, cyber-punk aesthetic",
@@ -65,7 +65,7 @@ let data = JSON.stringify({
 let config = {
   method: 'post',
   maxBodyLength: Infinity,
-  url: 'https://api.kenerateai.com/api/v3/wavespeed-ai/flux-dev',
+  url: 'https://api.kenerateai.com/api/v3/kenerateai/flux-dev',
   headers: { 
     'Authorization': 'Bearer <YOUR_API_KEY>', 
     'Content-Type': 'application/json'
