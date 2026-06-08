@@ -45,6 +45,14 @@
     {
       "group": "Open Source",
       "pages": [
+        "api-reference/open-source/flux-dev",
+        "api-reference/open-source/wan-2.1-t2v-720p",
+        "api-reference/open-source/wan-2.1-i2v-720p"
+      ]
+    },
+    {
+      "group": "Open Source",
+      "pages": [
         "api-reference/open-source/flux-dev"
       ]
     },

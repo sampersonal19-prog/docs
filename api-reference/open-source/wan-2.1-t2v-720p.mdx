@@ -1,0 +1,105 @@
+---
+title: 'Wan 2.1 Text-to-Video 720p'
+description: 'Create cinematic-quality videos from text descriptions with Wan 2.1 Text-to-Video 720p.'
+---
+
+## Overview
+
+Transform your written prompts into stunning 720p HD videos with smooth motion, rich detail, and professional visual quality — no source footage required.
+
+### Why It Stands Out
+- **Pure text-to-video generation**: Describe any scene, character, or action and watch it come to life in HD.
+- **Cinematic quality**: 720p resolution delivers sharp, detailed visuals suitable for professional use.
+- **Prompt Enhancer**: Built-in AI-powered prompt optimization helps you craft better descriptions for improved results.
+- **Flexible duration**: Generate 5-second or 10-second clips depending on your needs.
+- **Reproducibility**: Use the seed parameter to recreate exact results or iterate on variations.
+
+## Pricing
+| Duration | Price |
+|----------|-------|
+| 5 seconds | $0.40 |
+| 10 seconds | $0.50 |
+
+## Quick Start
+
+### API Endpoint
+```http
+POST https://api.kenerateai.com/api/v3/kenerateai/wan-2.1/t2v-720p
+```
+
+### Authentication
+Include your API key in the `Authorization` header:
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Request Schema
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `prompt` | string | **Yes** | Text description of the video you want to generate. |
+| `negative_prompt` | string | No | Elements to avoid in the generated video. |
+| `size` | string | No | Output resolution (default: 1280*720). |
+| `num_inference_steps` | integer | No | Quality/speed trade-off (default: 30). |
+| `duration` | string | No | Video length in seconds: 5 or 10 (default: 5). |
+| `guidance_scale` | float | No | Prompt adherence strength (default: 5.0). |
+| `flow_shift` | float | No | Motion intensity control (default: 5.0). |
+| `seed` | integer | No | Set for reproducibility; -1 for random. |
+| `webhook_url` | string | No | URL to receive a POST request when the video finishes generating. |
+
+## Examples
+
+### cURL
+```bash
+curl -X POST https://api.kenerateai.com/api/v3/kenerateai/wan-2.1/t2v-720p \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "A futuristic city with flying cars at sunset, highly detailed, cinematic lighting",
+    "duration": "5",
+    "num_inference_steps": 30
+  }'
+```
+
+### Python
+```python
+import requests
+
+url = "https://api.kenerateai.com/api/v3/kenerateai/wan-2.1/t2v-720p"
+headers = {
+    "Authorization": "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+data = {
+    "prompt": "A futuristic city with flying cars at sunset, highly detailed, cinematic lighting",
+    "duration": "5"
+}
+
+response = requests.post(url, headers=headers, json=data)
+print(response.json())
+```
+
+### Response Format
+When the request is successfully accepted, the API responds with a `queued` status and an `id`:
+```json
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "id": "task_abc123",
+    "status": "queued",
+    "urls": {
+      "get": "https://api.kenerateai.com/api/v1/predictions/task_abc123"
+    }
+  }
+}
+```
+
+You can then poll the prediction endpoint or wait for a webhook callback.
+
+## Pro Tips for Best Quality
+1. **Be detailed in your prompt** — describe subject appearance, action, environment, lighting, mood, and camera movement.
+2. **Use negative prompts** to reduce common artifacts: blur, distortion, jitter, watermarks, or low quality.
+3. **Start with lower inference steps** for quick previews, then increase for final renders.
+4. **Fix the seed** when iterating to compare the effect of different parameters.
+5. For complex scenes, break down the description into clear visual elements.
