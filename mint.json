@@ -49,9 +49,5 @@
         "api-reference/predictions/delete-prediction"
       ]
     }
-  ],
-  "footerSocials": {
-    "x": "https://x.com/kenerateai",
-    "instagram": "https://instagram.com/kenerateai"
-  }
+  ]
 }
