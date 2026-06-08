@@ -1,6 +1,6 @@
 ---
 title: "GPT Image 2 Edit"
-api: "POST https://api.kenerateai.com/api/v2/openai/gpt-image-2/edit"
+api: "POST https://api.kenerateai.com/api/v3/gpt-image-2-edit"
 description: "Edit, manipulate, or transfer styles on an existing image using natural language."
 ---
 
@@ -74,7 +74,7 @@ The cost per generation is calculated dynamically based on your requested qualit
 
 ```bash cURL
 curl --request POST \
-  --url https://api.kenerateai.com/api/v2/openai/gpt-image-2/edit \
+  --url https://api.kenerateai.com/api/v3/gpt-image-2-edit \
   --header 'Authorization: Bearer YOUR_API_KEY' \
   --header 'Content-Type: application/json' \
   --data '{

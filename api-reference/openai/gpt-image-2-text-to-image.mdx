@@ -1,6 +1,6 @@
 ---
 title: "GPT Image 2 Text-to-Image"
-api: "POST https://api.kenerateai.com/api/v2/openai/gpt-image-2/text-to-image"
+api: "POST https://api.kenerateai.com/api/v3/gpt-image-2-text-to-image"
 description: "Generate highly detailed, photorealistic images from natural language text descriptions."
 ---
 
@@ -70,7 +70,7 @@ The cost per generation is calculated dynamically based on your requested qualit
 
 ```bash cURL
 curl --request POST \
-  --url https://api.kenerateai.com/api/v2/openai/gpt-image-2/text-to-image \
+  --url https://api.kenerateai.com/api/v3/gpt-image-2-text-to-image \
   --header 'Authorization: Bearer YOUR_API_KEY' \
   --header 'Content-Type: application/json' \
   --data '{
