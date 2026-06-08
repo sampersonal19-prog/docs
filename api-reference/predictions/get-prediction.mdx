@@ -1,0 +1,71 @@
+---
+title: "Get a Prediction"
+api: "GET https://api.kenerateai.com/api/v2/predictions/{task_id}"
+description: "Retrieve the current status and output of a generation task."
+---
+
+If you are not using webhooks, you can manually poll this endpoint to check the status of your task. We recommend polling every 1 to 2 seconds.
+
+### Path Parameters
+
+<ParamField path="task_id" type="string" required>
+  The unique ID returned when you first initiated the generation request.
+</ParamField>
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer authentication header. Example: `Bearer YOUR_API_KEY`
+</ParamField>
+
+### Request Example
+
+```bash cURL
+curl --request GET \
+  --url https://api.kenerateai.com/api/v2/predictions/task_1234567890 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+### Response
+
+The response object represents the state of the task.
+
+<ResponseField name="id" type="string">
+  The unique identifier for the task.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the task. Will be one of:
+  * `queued`: Waiting to be picked up by a worker.
+  * `processing`: The model is actively generating the image.
+  * `completed`: The image has been generated successfully.
+  * `failed`: The generation failed.
+</ResponseField>
+
+<ResponseField name="model" type="string">
+  The model slug used for the generation (e.g. `openai/gpt-image-2/text-to-image`).
+</ResponseField>
+
+<ResponseField name="outputs" type="array">
+  *(Only present if status is `completed`)* An array of strings containing the generated public image URLs or Base64 data URIs.
+</ResponseField>
+
+<ResponseField name="error" type="string">
+  *(Only present if status is `failed`)* The error message detailing why the task failed.
+</ResponseField>
+
+<ResponseField name="code" type="integer">
+  *(Only present if status is `failed`)* The specific error code.
+</ResponseField>
+
+```json Example Completed Response
+{
+  "id": "task_1234567890",
+  "status": "completed",
+  "model": "openai/gpt-image-2/text-to-image",
+  "created_at": 1780898885,
+  "outputs": [
+    "https://kenerateai.t3.tigrisfiles.io/generations/user_123/task_123/1780898885.png"
+  ]
+}
+```

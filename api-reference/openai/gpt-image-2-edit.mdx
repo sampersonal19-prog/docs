@@ -1,0 +1,90 @@
+---
+title: "GPT Image 2 Edit"
+api: "POST https://api.kenerateai.com/api/v2/openai/gpt-image-2/edit"
+description: "Edit, manipulate, or transfer styles on an existing image using natural language."
+---
+
+The GPT Image 2 Edit model uses an **O-series planning stage** to seamlessly add or remove objects, change backgrounds, alter lighting, or transform the entire style of an image while flawlessly preserving the original structure.
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer authentication header. Example: `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="Content-Type" type="string" required>
+  Must be `application/json`
+</ParamField>
+
+### Body
+
+<ParamField body="prompt" type="string" required>
+  The text description of the desired edit. For example: `"Place the product on a sleek marble podium with studio lighting"` or `"Remove the person in the background"`.
+</ParamField>
+
+<ParamField body="images" type="array" required>
+  An array containing exactly one or more reference image strings. These can be public URLs or Base64 Data URIs (e.g., `data:image/png;base64,...`). The first image acts as the primary structure reference.
+</ParamField>
+
+<ParamField body="aspect_ratio" type="string">
+  If omitted, the API will auto-detect and maintain the aspect ratio of your reference image. Alternatively, provide a target ratio like `16:9` or `1:1`.
+</ParamField>
+
+<ParamField body="resolution" type="string" default="1k">
+  The target resolution of the generated image. Supported values: `1k`, `2k`, `4k`.
+</ParamField>
+
+<ParamField body="quality" type="string" default="medium">
+  The quality/steps of the generation. Supported values: `low`, `medium`, `high`.
+</ParamField>
+
+<ParamField body="output_format" type="string" default="png">
+  The file format of the output image. Supported values: `png`, `jpeg`, `webp`.
+</ParamField>
+
+<ParamField body="webhook_url" type="string">
+  A URL that KenerateAI will send an HTTP POST request to when the edit is complete.
+</ParamField>
+
+<ParamField body="enable_base64_output" type="boolean" default="false">
+  If true, returns raw Base64 data URI string instead of a public CDN URL.
+</ParamField>
+
+<ParamField body="enable_sync_mode" type="boolean" default="false">
+  If true, the connection will remain open until the image generation is completely finished.
+</ParamField>
+
+### Request Example
+
+```bash cURL
+curl --request POST \
+  --url https://api.kenerateai.com/api/v2/openai/gpt-image-2/edit \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "images": [
+      "https://example.com/raw-product-photo.png"
+    ],
+    "prompt": "Place the product on a modern wooden desk with warm cinematic lighting",
+    "resolution": "2k",
+    "quality": "high",
+    "webhook_url": "https://your.app/webhooks/kenerate"
+  }'
+```
+
+### Response
+
+<ResponseField name="id" type="string">
+  The unique identifier for the task. Use this to poll for status.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the task. Usually `queued` or `processing`.
+</ResponseField>
+
+```json Example Response
+{
+  "id": "task_9876543210",
+  "status": "queued"
+}
+```

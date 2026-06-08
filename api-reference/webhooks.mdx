@@ -1,0 +1,71 @@
+---
+title: "Webhooks & Async Processing"
+description: "Handle long-running AI generation tasks efficiently using webhooks."
+---
+
+Image generation can be a computationally heavy process that takes several seconds. Rather than holding HTTP connections open and waiting for the generation to finish (which can lead to timeouts), KenerateAI uses an asynchronous Queue and Webhook system.
+
+## How it works
+
+1. **Submit Request**: You send a `POST` request to the generation endpoint containing your prompt and a `webhook_url`.
+2. **Receive Task ID**: The API immediately returns a `200 OK` (or `202 Accepted`) response with a unique `id` for your task and a `status` of `queued`.
+3. **Background Processing**: The KenerateAI engine processes your request in the background.
+4. **Webhook Notification**: Once the task is finished (either successfully completed or failed), KenerateAI sends an HTTP `POST` request to the `webhook_url` you provided.
+
+## Setting up a Webhook
+
+To use webhooks, simply include the `webhook_url` parameter in the root of your JSON request payload:
+
+```json
+{
+  "prompt": "A futuristic city...",
+  "webhook_url": "https://your.app/api/webhooks/kenerate"
+}
+```
+
+## Webhook Payload Structure
+
+When KenerateAI calls your webhook URL, it sends a `POST` request with a JSON body representing the final state of your generation task.
+
+### Success Payload
+
+```json
+{
+  "id": "e42dc9f3-8b7c-4813-bfa5-985162a04944",
+  "model": "openai/gpt-image-2/text-to-image",
+  "status": "completed",
+  "outputs": [
+    "https://kenerateai.t3.tigrisfiles.io/generations/user_123/e42dc9f3/1780898885.png"
+  ],
+  "cost_cents": 6.0,
+  "created_at": "2026-06-08T12:00:00Z"
+}
+```
+
+### Failure Payload
+
+If the task fails due to a moderation filter, missing parameter, or internal error, the `status` will be `failed`, and the payload will contain `error` and `code` fields.
+
+```json
+{
+  "id": "e42dc9f3-8b7c-4813-bfa5-985162a04944",
+  "model": "openai/gpt-image-2/text-to-image",
+  "status": "failed",
+  "error": "The content contains sensitive information.",
+  "code": 1200,
+  "created_at": "2026-06-08T12:00:00Z"
+}
+```
+
+## Security Best Practices
+
+We highly recommend verifying that the webhook requests are actually coming from KenerateAI and not malicious actors.
+
+**Method 1: Secret Token (Easiest)**
+Include a secret query parameter directly in your webhook URL:
+`https://your.app/api/webhooks/kenerate?secret=SUPER_SECRET_KEY`
+
+Then, in your webhook handler, ensure that `req.query.secret === "SUPER_SECRET_KEY"`.
+
+**Method 2: HMAC Signatures**
+You can use the `webhook-id`, `webhook-timestamp`, and the raw body payload to compute an HMAC_SHA256 signature, then compare it to the `webhook-signature` header sent by KenerateAI.

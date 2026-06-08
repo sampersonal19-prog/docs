@@ -1,0 +1,70 @@
+---
+title: "Account Usage & Rate Limits"
+description: "Learn how to manage your credits, check your balance, and understand rate limits."
+---
+
+## Rate Limits
+
+KenerateAI APIs enforce rate limits to ensure stability and fair usage across our platform. Rate limits restrict the number of requests you can make within a specific time window. 
+
+Your rate limits scale automatically based on your total account top-ups. Top up to unlock higher rate limits.
+
+### Usage Tiers
+
+| Tier | Total Spend | Rate Limit |
+| ---- | ----------- | ---------- |
+| **Bronze** | $0 | 2 req/min |
+| **Silver** | $100 | 500 req/min |
+| **Gold** | $1,000 | 3,000 req/min |
+| **Ultra** | $10,000 | 5,000 req/min |
+
+You can check your exact current concurrency and rate limit thresholds on your [Billing Page](https://kenerateai.com/developer/billing).
+
+<Tip>
+  Failed requests (HTTP 4xx or 5xx) **do not** count against your rate limits.
+</Tip>
+
+---
+
+## Check Balance (Wallet API)
+
+You can programmatically retrieve your current balance, total spend, and available credits using the Wallet API.
+
+### Get Wallet Information
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.kenerateai.com/api/v2/wallet \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+fetch("https://api.kenerateai.com/api/v2/wallet", {
+  method: "GET",
+  headers: {
+    "Authorization": "Bearer YOUR_API_KEY"
+  }
+})
+.then(response => response.json())
+.then(data => console.log(data));
+```
+
+</CodeGroup>
+
+#### Response
+
+```json
+{
+  "wallet": {
+    "balanceCents": 1500,
+    "totalSpendCents": 5000,
+    "currency": "USD"
+  }
+}
+```
+
+<Note>
+  The `balanceCents` field indicates your available credit in cents. E.g., `1500` means `$15.00`.
+</Note>

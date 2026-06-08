@@ -1,0 +1,52 @@
+---
+title: "Error Codes"
+description: "Understand the error codes returned by the KenerateAI API."
+---
+
+When a task fails, the response or webhook payload includes detailed error information. A code of `0` indicates success, while specific `1xxx` or `5xxx` codes indicate client or server errors, respectively.
+
+### Error Payload Structure
+
+Failed API responses and webhooks will contain the following structure:
+
+```json
+{
+  "id": "prediction-uuid",
+  "status": "failed",
+  "code": 1400,
+  "error": "A required parameter is missing."
+}
+```
+
+### Success
+
+| Code | Description |
+| ---- | ----------- |
+| `0`  | Success     |
+
+### Client Errors (1xxx)
+
+These errors occur when there is an issue with the request parameters or the input media provided to the API.
+
+| Code | Name | Description | Suggested Action |
+| ---- | ---- | ----------- | ---------------- |
+| `1200` | Content Moderation | The content contains sensitive information. | Modify the input content and retry. |
+| `1400` | Missing Parameter | A required parameter is missing. | Check the API documentation for required parameters. |
+| `1401` | Invalid Parameter | The parameter value is invalid. | Verify parameter format and value constraints. |
+| `1402` | Media Access Failed | Unable to access the provided media URL. | Ensure the URL is publicly accessible and valid. |
+| `1403` | Task Execution Failed | The task could not be completed. | Check the error message and adjust input parameters. |
+| `1405` | Task Failed | The task execution failed. | Check the error message for details. |
+
+### Server Errors (5xxx)
+
+These errors indicate an issue on KenerateAI's side or a temporary disruption.
+
+| Code | Name | Description | Suggested Action |
+| ---- | ---- | ----------- | ---------------- |
+| `5000` | Internal Error | An internal error occurred. | Please try again later or contact support. |
+| `5003` | Service Unavailable | The service is temporarily unavailable. | Please try again later. |
+| `5004` | Timeout | The request timed out. | Reduce input size or complexity and retry. |
+
+<Tip>
+  **Best Practices**: For `1xxx` errors, review and correct your request payload. For `5xxx` errors, retry with exponential backoff. Failed generation requests do not deduct credits from your wallet.
+</Tip>

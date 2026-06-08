@@ -1,0 +1,57 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "KenerateAI",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#3B82F6",
+    "light": "#60A5FA",
+    "dark": "#2563EB",
+    "anchors": {
+      "from": "#3B82F6",
+      "to": "#8B5CF6"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Developer Dashboard",
+      "url": "https://kenerateai.com/developer"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Get API Key",
+    "url": "https://kenerateai.com/developer/api-key"
+  },
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "api-reference/introduction",
+        "api-reference/account-usage",
+        "api-reference/webhooks",
+        "api-reference/errors"
+      ]
+    },
+    {
+      "group": "OpenAI",
+      "pages": [
+        "api-reference/openai/gpt-image-2-text-to-image",
+        "api-reference/openai/gpt-image-2-edit"
+      ]
+    },
+    {
+      "group": "Predictions",
+      "pages": [
+        "api-reference/predictions/get-prediction",
+        "api-reference/predictions/delete-prediction"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "x": "https://x.com/kenerateai",
+    "github": "https://github.com/sampersonal19-prog/kenerate_ai"
+  }
+}
