@@ -28,44 +28,83 @@ curl --request GET \
 
 ### Response
 
-The response object represents the state of the task.
-
-<ResponseField name="id" type="string">
-  The unique identifier for the task.
-</ResponseField>
-
-<ResponseField name="status" type="string">
-  The current status of the task. Will be one of:
-  * `queued`: Waiting to be picked up by a worker.
-  * `processing`: The model is actively generating the image.
-  * `completed`: The image has been generated successfully.
-  * `failed`: The generation failed.
-</ResponseField>
-
-<ResponseField name="model" type="string">
-  The model slug used for the generation (e.g. `openai/gpt-image-2/text-to-image`).
-</ResponseField>
-
-<ResponseField name="outputs" type="array">
-  *(Only present if status is `completed`)* An array of strings containing the generated public image URLs or Base64 data URIs.
-</ResponseField>
-
-<ResponseField name="error" type="string">
-  *(Only present if status is `failed`)* The error message detailing why the task failed.
-</ResponseField>
+The response object contains a standard wrapper with the task's state inside the `data` field.
 
 <ResponseField name="code" type="integer">
-  *(Only present if status is `failed`)* The specific error code.
+  HTTP status code (e.g., 200 for success)
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Status message (e.g., "success")
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="properties" defaultOpen>
+    <ResponseField name="id" type="string">
+      The unique identifier for the task.
+    </ResponseField>
+    
+    <ResponseField name="status" type="string">
+      The current status of the task. Will be one of:
+      * `queued`: Waiting to be picked up by a worker.
+      * `processing`: The model is actively generating the image.
+      * `completed`: The image has been generated successfully.
+      * `failed`: The generation failed.
+    </ResponseField>
+    
+    <ResponseField name="model" type="string">
+      The model slug used for the generation (e.g. `kenerate-image`).
+    </ResponseField>
+    
+    <ResponseField name="outputs" type="array">
+      An array of strings containing the generated public image URLs or Base64 data URIs. Empty if the status is not completed.
+    </ResponseField>
+
+    <ResponseField name="urls" type="object">
+      <Expandable title="properties">
+        <ResponseField name="get" type="string">
+          URL to retrieve the prediction result via polling
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    
+    <ResponseField name="error" type="string">
+      The error message detailing why the task failed. Empty if no error occurred.
+    </ResponseField>
+    
+    <ResponseField name="created_at" type="string">
+      ISO timestamp of when the request was created.
+    </ResponseField>
+
+    <ResponseField name="timings" type="object">
+      <Expandable title="properties">
+        <ResponseField name="inference" type="integer">
+          Inference time in milliseconds
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
 </ResponseField>
 
 ```json Example Completed Response
 {
-  "id": "task_1234567890",
-  "status": "completed",
-  "model": "openai/gpt-image-2/text-to-image",
-  "created_at": 1780898885,
-  "outputs": [
-    "https://kenerateai.t3.tigrisfiles.io/generations/user_123/task_123/1780898885.png"
-  ]
+  "code": 200,
+  "message": "success",
+  "data": {
+    "id": "e42dc9f3-8b7c-4813-bfa5-985162a04944",
+    "model": "kenerate-image",
+    "outputs": [
+      "https://kenerateai.t3.tigrisfiles.io/api-outputs/user_123/e42dc9f3/1780898885.png"
+    ],
+    "urls": {
+      "get": "https://api.kenerateai.com/api/v1/predictions/e42dc9f3-8b7c-4813-bfa5-985162a04944"
+    },
+    "status": "completed",
+    "created_at": "2026-06-08T12:00:00.000Z",
+    "error": "",
+    "timings": {
+      "inference": 1540
+    }
+  }
 }
 ```
