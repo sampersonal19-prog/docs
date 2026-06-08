@@ -61,11 +61,8 @@ If the task fails due to a moderation filter, missing parameter, or internal err
 
 We highly recommend verifying that the webhook requests are actually coming from KenerateAI and not malicious actors.
 
-**Method 1: Secret Token (Easiest)**
+**Method 1: Secret Token (Recommended)**
 Include a secret query parameter directly in your webhook URL:
 `https://your.app/api/webhooks/kenerate?secret=SUPER_SECRET_KEY`
 
 Then, in your webhook handler, ensure that `req.query.secret === "SUPER_SECRET_KEY"`.
-
-**Method 2: HMAC Signatures**
-You can use the `webhook-id`, `webhook-timestamp`, and the raw body payload to compute an HMAC_SHA256 signature, then compare it to the `webhook-signature` header sent by KenerateAI.
