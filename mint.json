@@ -51,9 +51,9 @@
       ]
     },
     {
-      "group": "Open Source",
+      "group": "Video",
       "pages": [
-        "api-reference/open-source/flux-dev"
+        "api-reference/video/google-veo3.1-text-to-video"
       ]
     },
     {
